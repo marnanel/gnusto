@@ -1,7 +1,6 @@
 import Qt 4.7
 
-//Script { source: "wrapper.js"; }
-import "wrapper.js" as Wrapper
+import "gnusto-wrapper.js" as Wrapper
 
 Rectangle {
 	id: page
