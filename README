@@ -1,0 +1,9 @@
+The game "The Hitchhiker's Guide to the Galaxy" is believed
+to be copyright 1984, the estate of Douglas Adams, and is
+believed to be released as freeware.
+
+The Gnusto engine, the Gnusto wrapper, and text.qml are
+released under version 2 of the GNU GPL.
+
+To start the program, type ./go at the shell prompt.
+
