@@ -3,14 +3,26 @@ Qt.include('remedial.js') // Crockford's remedial JS library, for string quoting
 Qt.include('gnusto-engine.js') // Gnusto itself
 
 var body = '';
+var inputLeft = '';
 var ge;
 var current_window = 1;
 
+var INPUT_MODE_NONE = 0;
+var INPUT_MODE_CHAR = 1;
+var INPUT_MODE_STRING = 2;
+var input_mode = INPUT_MODE_NONE;
+
 function changeText(text) {
-	text.text = body;
+	var cursor = '';
+
+	if (input_mode == INPUT_MODE_STRING) {
+		cursor = '|';
+	}
+
+	text.text = body+inputLeft+cursor;
 }
 
-function runEngine(text) {
+function runEngine(win,flick,text) {
 	var repeat = 1;
 
 	while (repeat) {
@@ -21,7 +33,6 @@ function runEngine(text) {
 		changeText(text);
 
 		var effect = ge.effect(0);
-		console.log(effect);
 
 		if (effect=='YW') { // ERASE WINDOW
 			body = '';
@@ -44,19 +55,54 @@ function runEngine(text) {
 			var style = ge.effect(1);
 			console.log ("Setting style to "+style+" which is not implemented");
 			repeat = 1;
+		} else if (effect=='RS') { // READ STRING
+			input_mode = INPUT_MODE_STRING;
+			inputLeft = '';
+			changeText(text);
+		} else if (effect=='DS') { // SAVE
+			body += '[Saving games is not implemented]\n\n';
+			ge.answer(0, 0);
+			repeat = 1;
+		} else if (effect=='DR') { // RESTORE
+			body += '[Loading games is not implemented]\n\n';
+			ge.answer(0, 0);
+			repeat = 1;
+		} else if (effect=='QU') { // QUIT
+			Qt.quit();
 		} else {
-			console.log("Problem: unknown effect "+effect);
+			body += '[Unknown effect: '+effect+']';
+			changeText(text);
+			repeat = 1; // let's hope that's good
 		}
 	}
+
+	flick.contentY = text.paintedHeight - win.height;
 }
 
-function startUp(win,text) {
+function keypress(win,flick,text,keystroke) {
+	
+	if (keystroke == Qt.Key_Backspace) {
+		inputLeft = inputLeft.substring(0, inputLeft.length-1);
+	} else if (keystroke == Qt.Key_Enter || keystroke == Qt.Key_Return) {
+		input_mode = INPUT_MODE_NONE;
+		body += inputLeft + '\n\n';
+		ge.answer(1, inputLeft);
+		ge.answer(2, 13);
+		runEngine(win,flick,text);
+	} else {
+		inputLeft = inputLeft + String.fromCharCode(keystroke);
+	}
+	changeText(text);
+	return false;
+}
+
+function startUp(win,flick,text) {
 
 	// Load the game we just included as a literal array.
 	ge = new GnustoEngine(console.log);
 	ge.loadStory(zcode);
 
-	runEngine(text);
+	runEngine(win,flick,text);
 
 	changeText(text);
 }
