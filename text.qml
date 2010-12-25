@@ -10,7 +10,7 @@ Rectangle {
 	Text {
 		id: mainBody
 		text: "If you can see this, the game hasn't loaded."
-		wrapMode: Text.WrapAnywhere
+		wrapMode: "WordWrap"
 	}
 
 	Component.onCompleted: Wrapper.startUp(page, mainBody)

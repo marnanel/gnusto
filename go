@@ -1,3 +1,3 @@
 #!/bin/sh
-qmlviewer text.qml
+qmlviewer -maximized text.qml
 
