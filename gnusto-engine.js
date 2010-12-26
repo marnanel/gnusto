@@ -1,4 +1,4 @@
-// gnusto-lib.js || -*- Mode: Javascript; tab-width: 2; -*-
+// gnusto-lib.js || -*- Mode: Javascript; tab-width: 1; -*-
 // The Gnusto JavaScript Z-machine library.
 // $Header: /cvs/gnusto/src/xpcom/engine/gnusto-engine.js,v 1.116 2005/04/26 01:50:32 naltrexone42 Exp $
 //
