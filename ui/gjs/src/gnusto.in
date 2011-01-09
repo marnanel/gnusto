@@ -1,0 +1,4 @@
+#!/bin/sh
+
+gjs @DATADIR@/gjs-1.0/gnusto/wrapper.js
+
