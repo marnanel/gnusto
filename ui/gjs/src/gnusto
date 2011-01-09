@@ -1,4 +1,0 @@
-#!/bin/sh
-
-gjs /usr/local/share/gjs-1.0/gnusto/wrapper.js
-
